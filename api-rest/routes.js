@@ -26,7 +26,7 @@ router.post("/clientes", async (req, res) => {
 		celular: req.body.celular
 	})
 	await cliente.save().then(function(client) {
-        res.send(client)
+        res.send({success: "Cliente agregado con éxito", cliente: client })
     }).catch(error =>{
         //res.send(error);
         if (error.name === 'MongoError' && error.code === 11000) {     
