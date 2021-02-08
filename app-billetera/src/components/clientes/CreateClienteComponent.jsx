@@ -85,7 +85,7 @@ class CreateClienteComponent extends Component {
                 <br></br>
                    <div className = "container">
                         <div className = "row">
-                            <div className = "card col-md-6 offset-md-3 offset-md-3">
+                            <div className = "card col-md-8 offset-md-2 offset-md-2">
                                 {
                                     this.obtenerTitulo()
                                 }

@@ -8,6 +8,7 @@ class ListClienteComponent extends Component {
             clientes: []
         }
         this.agregarCliente = this.agregarCliente.bind(this);
+        this.consultarSaldo = this.consultarSaldo.bind(this);
     }
 
     componentDidMount(){
@@ -20,12 +21,17 @@ class ListClienteComponent extends Component {
         this.props.history.push('/add-cliente/_add');
     }
 
+    consultarSaldo(){
+        this.props.history.push('/consultar-saldo');
+    }
+
     render() {
         return (
             <div>
                  <h2 className="text-center">Listado de clientes</h2>
                  <div className = "row">
                     <button className="btn btn-primary" onClick={this.agregarCliente}> Agregar Cliente</button>
+                    <button className="btn btn-primary ml-4" onClick={this.consultarSaldo}> Consultar Saldo</button>
                  </div>
                  <br></br>
                  <div className = "row">

@@ -5,6 +5,7 @@ import ListClienteComponent from './components/clientes/ListClienteComponent';
 import HeaderComponent from './components/HeaderComponent';
 import FooterComponent from './components/FooterComponent';
 import CreateClienteComponente from './components/clientes/CreateClienteComponent';
+import ConsultarSaldoComponent from "./components/clientes/ConsultarSaldoComponent";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
                           <Route path = "/" exact component = {ListClienteComponent}></Route>
                           <Route path = "/clientes" component = {ListClienteComponent}></Route>
                           <Route path = "/add-cliente/:id" component = {CreateClienteComponente}></Route>
+                          <Route path = "/consultar-saldo" component = {ConsultarSaldoComponent}></Route>
                     </Switch>
                 </div>
               <FooterComponent />
