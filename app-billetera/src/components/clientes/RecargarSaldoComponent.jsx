@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ClienteService from '../../services/ClienteService';
 
-class ConsultarSaldoComponent extends Component {
+class RecargarSaldoComponent extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -11,35 +11,25 @@ class ConsultarSaldoComponent extends Component {
             type_msg: '',
             msg: ''            
         }
-
-        //this.consultarSaldo = this.consultarSaldo.bind(this);
     }
 
-    componentDidMount(){        
-        ClienteService.consultarSaldo(this.state).then(res => {
-            if(res.data.saldo >= 0){
-                this.setState({saldo: res.data.saldo});
-                this.setState({type_msg: 'success'})
-                this.setState({msg: res.data.success})
-            }    
-        }).catch(_ =>{
-            this.setState({type_msg: 'danger'})
-            this.setState({msg: "Billetera no encontrada"})
-        })
-    }
-
-    consultarSaldo = (e) => {
+    recargarSaldo = (e) => {
         e.preventDefault();
-        ClienteService.consultarSaldo(this.state).then(res => {
-            if(res.data.saldo){
-                this.setState({saldo: res.data.saldo});
-                this.setState({type_msg: 'success'})
-                this.setState({msg: res.data.success})
-            }     
-        }).catch(_ =>{
+        if(this.state.saldo > 0){
+            ClienteService.recargarSaldo(this.state).then(res => {
+                if(res.data.success){
+                    this.setState({saldo: res.data.saldo});
+                    this.setState({type_msg: 'success'})
+                    this.setState({msg: res.data.success})
+                }     
+            }).catch(_ =>{
+                this.setState({type_msg: 'danger'})
+                this.setState({msg: "Billetera no encontrada"})
+            })
+        }else{
             this.setState({type_msg: 'danger'})
-            this.setState({msg: "Billetera no encontrada"})
-        })
+            this.setState({msg: "El Saldo a recargar debe ser mayor a 0"})
+        }        
     }
 
     changeDocumentoHandler= (event) => {
@@ -48,6 +38,10 @@ class ConsultarSaldoComponent extends Component {
 
     changeCelularHandler= (event) => {
         this.setState({celular: event.target.value});
+    }
+
+    changeSaldoHandler= (event) => {
+        this.setState({saldo: event.target.value});
     }
 
     cancel(){
@@ -73,7 +67,7 @@ class ConsultarSaldoComponent extends Component {
                <div className = "container">
                     <div className = "row">
                         <div className = "card col-md-8 offset-md-2 offset-md-2">
-                            <h3 className="text-center mt-2">Consultar Saldo</h3>
+                            <h3 className="text-center mt-2">Recargar Saldo</h3>
                             <div className = "card-body">
                                 { this.mostrarNotificacion() }
                                 <form>
@@ -88,12 +82,12 @@ class ConsultarSaldoComponent extends Component {
                                             value={this.state.celular} onChange={this.changeCelularHandler}/>
                                     </div>                                    
                                     <div className = "form-group">
-                                        <label> Saldo: </label>
+                                        <label> Valor a recargar: </label>
                                         <input placeholder="Saldo" name="saldo" type="number" className="form-control" 
-                                            value={this.state.saldo} disabled/>
+                                            value={this.state.saldo} onChange={this.changeSaldoHandler}/>
                                     </div>
 
-                                    <button className="btn btn-success" onClick={this.consultarSaldo}>Consultar</button>
+                                    <button className="btn btn-success" onClick={this.recargarSaldo}>Recargar</button>
                                     <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancelar</button>
                                 </form>
                             </div>
@@ -105,4 +99,4 @@ class ConsultarSaldoComponent extends Component {
     }
 }
 
-export default ConsultarSaldoComponent;
+export default RecargarSaldoComponent;

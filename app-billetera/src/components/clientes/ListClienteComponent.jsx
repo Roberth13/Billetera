@@ -21,8 +21,20 @@ class ListClienteComponent extends Component {
         this.props.history.push('/add-cliente/_add');
     }
 
-    consultarSaldo(){
-        this.props.history.push('/consultar-saldo');
+    consultarSaldo(documento, celular){
+        this.props.history.push(`/consultar-saldo/${documento}/${celular}`);
+    }
+
+    recargarSaldo(documento, celular){
+        this.props.history.push(`/recargar-saldo/${documento}/${celular}`);
+    }
+
+    comprar(id){
+        this.props.history.push(`/comprar/${id}`);
+    }
+
+    confirmar(id){
+        this.props.history.push(`/confirmar/${id}`);
     }
 
     render() {
@@ -31,7 +43,6 @@ class ListClienteComponent extends Component {
                  <h2 className="text-center">Listado de clientes</h2>
                  <div className = "row">
                     <button className="btn btn-primary" onClick={this.agregarCliente}> Agregar Cliente</button>
-                    <button className="btn btn-primary ml-4" onClick={this.consultarSaldo}> Consultar Saldo</button>
                  </div>
                  <br></br>
                  <div className = "row">
@@ -43,6 +54,7 @@ class ListClienteComponent extends Component {
                                     <th>Nombres</th>
                                     <th>Email</th>
                                     <th>Celular</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -54,6 +66,12 @@ class ListClienteComponent extends Component {
                                              <td> {cliente.nombres}</td>
                                              <td> {cliente.email}</td>
                                              <td> {cliente.celular}</td>
+                                             <td>
+                                                 <button onClick={ () => this.consultarSaldo(cliente.documento, cliente.celular)} className="btn btn-warning mr-2">Saldo </button>                                                 
+                                                 <button onClick={ () => this.recargarSaldo(cliente.documento, cliente.celular)} className="btn btn-warning">Recargar </button>                                                 
+                                                 <button onClick={ () => this.comprar(cliente._id)} className="btn btn-warning ml-2">Pagar </button>                                                 
+                                                 <button onClick={ () => this.confirmar(cliente._id)} className="btn btn-warning ml-2">Confirmar </button>                                                 
+                                             </td>
                                         </tr>
                                     )
                                 }

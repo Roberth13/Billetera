@@ -69,14 +69,22 @@ router.post("/clientes", async (req, res) => {
 })
 
 /**
+ * Consultar un cliente
+ */
+router.get("/clientes/:id", async (req, res) => {
+	const cliente = await Cliente.findOne({ _id: req.params.id })
+	res.send(cliente)
+})
+
+/**
  * Consultar la billetera de un cliente y actualiza el saldo
  */
 router.patch("/billetera", async(req, res) =>{
     try {
-		const cliente = await Cliente.findOne({ documento: req.body.documento, email: req.body.email })		
+		const cliente = await Cliente.findOne({ documento: req.body.documento, celular: req.body.celular })		
         if(cliente){
             if (req.body.saldo) {
-                cliente.saldo = cliente.saldo + req.body.saldo
+                cliente.saldo = Number(cliente.saldo) + Number(req.body.saldo)
                 await cliente.save()
                 res.send({ success: "Saldo actualizado con éxito", cliente: cliente})
             }else{
@@ -141,7 +149,7 @@ router.post("/compra", async(req, res) =>{
  */
 router.patch("/compra", async(req, res) =>{
     try {
-		const compra = await Compra.findOne({ token: req.body.token, id_cliente: req.body.id_cliente })		
+		const compra = await Compra.findOne({ token: req.body.token, id_cliente: req.body.id_cliente, estado: 0 })		
         if(compra){
             const cliente = await Cliente.findOne({ _id: compra.id_cliente})
             let _saldo = cliente.saldo - compra.valor;
@@ -153,7 +161,7 @@ router.patch("/compra", async(req, res) =>{
                 res.status(200)
                 res.send({ success: "Compra confirmada y saldo actualizado con éxito", compra: compra, cliente: cliente})
             }else{
-                res.status(404)
+                res.status(200)
                 res.send({ error: "El cliente no tiene suficiente saldo en la billetera"})
             }
         }else{
